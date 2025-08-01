@@ -80,21 +80,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Derive prompt level from familiarity
         const promptLevel = familiarityMapping[familiarity] || 'Basic';
         // Normalize tasks to dataset categories
-        const mappedTasks = tasks.map(normalizeTask);
-
-        // If the respondent provided favorite prompts, submit them via the hidden Web3Forms form.
-        // The hidden form posts to https://api.web3forms.com/submit and includes a public access
-        // key that maps submissions to your email inbox. Once you configure Web3Forms using your
-        // access key, each submission will arrive directly in your email. This ensures respondents'
-        // open-ended responses are captured without requiring any action from them.
-        if (favorites && favorites.trim() !== '') {
-            const hiddenForm = document.getElementById('hidden-submission-form');
-            // Populate hidden form fields
-            hiddenForm.querySelector('input[name="name"]').value = name || '';
-            hiddenForm.querySelector('input[name="email"]').value = email || '';
-            hiddenForm.querySelector('textarea[name="favorites"]').value = favorites;
-            // Submit the form to FormSubmit via hidden iframe to avoid page navigation
-            hiddenForm.submit();
+    // If the respondent provided a favorite prompt, open a mailto link pre-filled with their details
+    if (favorites && favorites.trim() !== '') {
+        const subject = encodeURIComponent('Favorite Gen AI Prompt Submission');
+        const body = encodeURIComponent('Name: ' + (name || '') + '\nEmail: ' + (email || '') + '\nFavorite Prompt: ' + favorites);
+        const mailtoUrl = 'mailto:dkrasemann@deloitte.com?subject=' + subject + '&body=' + body;
+        window.open(mailtoUrl);
         }
 
         // Filter prompts
