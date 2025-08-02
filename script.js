@@ -78,15 +78,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         const familiarity = formData.get('familiarity');
         const favorites = formData.get('favorites');
         // Derive prompt level from familiarity
+           
+    
         const promptLevel = familiarityMapping[familiarity] || 'Basic';
         // Normalize tasks to dataset categories
+            const mappedTasks = tasks.map(normalizeTask);
+
+
     // If the respondent provided a favorite prompt, open a mailto link pre-filled with their details
-    if (favorites && favorites.trim() !== '') {
+    if     if (favorites && favorites.trim() !== '') {
         const subject = encodeURIComponent('Favorite Gen AI Prompt Submission');
-        const body = encodeURIComponent('Name: ' + (name || '') + '\nEmail: ' + (email || '') + '\nFavorite Prompt: ' + favorites);
+        const body = encodeURIComponent('Name: ' + (name || '') + '\nEmail: ' + (email || '') + '\nFavourite Prompt: ' + favorites.trim());
         const mailtoUrl = 'mailto:dkrasemann@deloitte.com?subject=' + subject + '&body=' + body;
-        window.open(mailtoUrl);
-        }
+        window.location.href = mailtoUrl;
+    }
+
+   }
 
         // Filter prompts
         const filtered = promptsData.filter(item => {
