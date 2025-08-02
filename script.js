@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         steps.forEach((step, i) => {
             step.style.display = i === index ? 'block' : 'none';
         });
-        // Update progress: index ranges 0‑7; last index is results step
+        // Update progress: index ranges 0‑7; last index is results step calculation
         const totalSteps = steps.length - 1; // exclude results for progress calculation
         const ratio = index / totalSteps;
         progress.style.width = `${Math.min(ratio * 100, 100)}%`;
@@ -78,22 +78,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         const familiarity = formData.get('familiarity');
         const favorites = formData.get('favorites');
         // Derive prompt level from familiarity
-           
-    
         const promptLevel = familiarityMapping[familiarity] || 'Basic';
         // Normalize tasks to dataset categories
-            const mappedTasks = tasks.map(normalizeTask);
+        const mappedTasks = tasks.map(normalizeTask);
 
-
-    // If the respondent provided a favorite prompt, open a mailto link pre-filled with their details
-    if     if (favorites && favorites.trim() !== '') {
-        const subject = encodeURIComponent('Favorite Gen AI Prompt Submission');
-        const body = encodeURIComponent('Name: ' + (name || '') + '\nEmail: ' + (email || '') + '\nFavourite Prompt: ' + favorites.trim());
-        const mailtoUrl = 'mailto:dkrasemann@deloitte.com?subject=' + subject + '&body=' + body;
-        window.location.href = mailtoUrl;
-    }
-
-   }
+        // If the respondent provided a favorite prompt, open a mailto link pre‑filled with their details.
+        // Web3Forms submission has been removed in favour of a simple mailto link. This will open the
+        // user's default mail client (e.g. Outlook) with the subject and body prepopulated so they can
+        // click send to share their favourite prompt.
+        if (favorites && favorites.trim() !== '') {
+            const subject = encodeURIComponent('Favorite Gen AI Prompt Submission');
+            const body = encodeURIComponent(
+                'Name: ' + (name || '') + '\n' +
+                'Email: ' + (email || '') + '\n' +
+                'Favourite Prompt: ' + favorites.trim()
+            );
+            const mailtoUrl = 'mailto:dkrasemann@deloitte.com?subject=' + subject + '&body=' + body;
+            // Use window.location rather than window.open for better compatibility with email clients
+            window.location.href = mailtoUrl;
+        }
 
         // Filter prompts
         const filtered = promptsData.filter(item => {
@@ -216,7 +219,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             processForm();
         } else {
             // Validate current step fields if there are any required ones
-            const currentFields = steps[currentStep].querySelectorAll('input[required], textarea[required]');
+            const currentFields =
+                steps[currentStep].querySelectorAll('input[required], textarea[required]');
             let valid = true;
             currentFields.forEach(field => {
                 if (!field.checkValidity()) {
