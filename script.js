@@ -9,6 +9,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentStep = 0;
     let promptsData = [];
 
+    // Cover page elements and initial UI setup
+    const coverPage = document.getElementById('cover-page');
+    const startBtn = document.getElementById('startBtn');
+    const progressBarEl = document.querySelector('.progress-bar');
+    const navigationEl = document.querySelector('.navigation');
+
+    // Hide the form, progress bar, and navigation on initial load; the form is
+    // already hidden via inline style in index.html. We still hide the
+    // progress bar and navigation until the user clicks the start button.
+    if (progressBarEl) progressBarEl.style.display = 'none';
+    if (navigationEl) navigationEl.style.display = 'none';
+
+    // When the user clicks the start button, hide the cover page and
+    // reveal the survey form along with the progress bar and navigation. The
+    // first survey step will then be displayed.
+    if (startBtn) {
+        startBtn.addEventListener('click', () => {
+            if (coverPage) coverPage.style.display = 'none';
+            form.style.display = 'block';
+            if (progressBarEl) progressBarEl.style.display = 'block';
+            if (navigationEl) navigationEl.style.display = 'flex';
+            // Reset current step to 0 in case the user restarted
+            currentStep = 0;
+            showStep(currentStep);
+        });
+    }
+
     // Mapping user familiarity to prompt levels
     const familiarityMapping = {
         High: 'Advanced',
