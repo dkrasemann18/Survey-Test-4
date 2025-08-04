@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         Low: 'Basic'
     };
 
+    // Escape HTML special characters to preserve placeholders like
+    // <Company> and <Year> when generating downloadable documents.
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
     // Normalize task names to match dataset
     function normalizeTask(task) {
         if (!task) return task;
@@ -210,8 +220,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 Object.keys(grouped).sort().forEach(category => {
                     bodyHtml += `<h3>${category}</h3>`;
                     bodyHtml += '<ul>';
-                    Array.from(grouped[category]).sort().forEach(promptText => {
-                        bodyHtml += `<li>${promptText}</li>`;
+                        Array.from(grouped[category]).sort().forEach(promptText => {
+                        // Escape HTML so placeholders like <Company> aren't removed
+                        bodyHtml += `<li>${escapeHtml(promptText)}</li>`;
                     });
                     bodyHtml += '</ul>';
                 });

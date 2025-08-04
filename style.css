@@ -201,6 +201,24 @@ body {
     margin: 1rem 0;
 }
 
+/* Cover image styling for cover page
+ * Use a pseudo-element to insert the image above the heading on the cover page.
+ * This avoids having to modify the HTML directly and still displays the
+ * uploaded cover image prominently. Adjust the height and max-width
+ * values as needed for the image's aspect ratio. */
+.cover-page::before {
+    content: "";
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+    margin: 0 auto 20px;
+    background-image: url('cover-image.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 #results-container h3 {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
