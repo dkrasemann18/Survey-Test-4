@@ -170,3 +170,42 @@ body {
 #downloadBtn:hover {
     background-color: #5750d4;
 }
+
+/* New styling for cover page and results note */
+.cover-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    text-align: center;
+}
+
+.cover-page h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.results-note {
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.user-info {
+    margin-bottom: 1rem;
+}
+
+.summary {
+    font-weight: 600;
+    margin: 1rem 0;
+}
+
+#results-container h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#results-container ul {
+    margin-bottom: 1rem;
+}
